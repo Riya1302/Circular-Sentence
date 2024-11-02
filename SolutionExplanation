@@ -1,0 +1,75 @@
+
+### Solution
+
+This code defines a function `isCircularSentence` that checks if a given sentence is "circular." A circular sentence is one where the first character matches the last character, and for every space-separated word, the last character of the preceding word matches the first character of the next word.
+
+### Let's break down the code step-by-step:
+
+#### Function Signature and Initialization
+```javascript
+/**
+ * @param {string} sentence
+ * @return {boolean}
+ */
+var isCircularSentence = function(sentence) {
+    const n = sentence.length;
+```
+
+- The `isCircularSentence` function accepts a single parameter `sentence`, which is a string of words separated by spaces.
+- The function first initializes a variable `n` to store the length of `sentence` for easy access during iteration.
+
+#### First Check: Compare First and Last Characters of Sentence
+```javascript
+    if (sentence[0] !== sentence[n - 1]) return false;
+```
+
+- This line performs a preliminary check to see if the sentence is circular.
+  - If the first character (`sentence[0]`) is not equal to the last character (`sentence[n - 1]`), the sentence is immediately considered **not circular**, and the function returns `false`.
+- This ensures that circularity begins at the ends of the sentence.
+
+#### Iterating Through the Sentence
+```javascript
+    for (let i = 1; i < n - 1; i++) {
+        if (sentence[i] === ' ') {
+            if (sentence[i - 1] !== sentence[i + 1]) return false;
+        }
+    }
+```
+
+- The `for` loop iterates from the second character (`i = 1`) up to the second-to-last character (`i < n - 1`).
+- Within this loop:
+  - The code checks each character to see if it’s a space (`sentence[i] === ' '`).
+  - If a space is found, it indicates a boundary between two words in the sentence.
+  - The code then checks if the character before the space (`sentence[i - 1]`) matches the character after the space (`sentence[i + 1]`).
+    - If these two characters do not match, the sentence is considered **not circular**, and the function returns `false`.
+
+#### Final Check: Returning True if All Conditions are Met
+```javascript
+    return true;
+};
+```
+
+- If the loop completes without returning `false`, it means all conditions for circularity have been met.
+- In this case, the function returns `true`, indicating that the sentence is circular.
+
+### Example Walkthrough
+
+#### Example 1
+- **Input**: `sentence = "leetcode eel"`
+- **Process**:
+  1. The first and last characters, `"l"`, match.
+  2. There is a space between `"leetcode"` and `"eel"`.
+  3. The last character of `"leetcode"` (`"e"`) matches the first character of `"eel"` (`"e"`).
+- **Result**: The function returns `true`.
+
+#### Example 2
+- **Input**: `sentence = "hello world"`
+- **Process**:
+  1. The first and last characters, `"h"` and `"d"`, do not match.
+- **Result**: The function returns `false` immediately due to the first check.
+
+### Efficiency
+- **Time Complexity**: \(O(n)\), where \(n\) is the length of the sentence, as we iterate through the sentence once.
+- **Space Complexity**: \(O(1)\), as we only use a constant amount of extra memory.
+
+This function efficiently checks if a sentence is circular by verifying both the ends and the internal word boundaries.
